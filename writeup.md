@@ -24,7 +24,11 @@ The goals / steps of this project are the following:
 [image6]: ./output_images/pt_straight_lines1.jpg "Restore Image from Warped Images"
 
 [image7]: ./test_images/straight_lines1.jpg "Original Strianght line Image"
-[image8]: ./test_images/straight_lines1.jpg "Original Strianght line Image"
+[image8]: ./output_images/st_line_undistort.jpg "Undistorted Strianght line Image"
+
+[image9]: ./output_images/st_line_filter.jpg "Straight line Image Filter"
+[image10]: ./output_images/st_line_filter_rst.jpg "Straight line Image Filter restore"
+[image11]: ./output_images/lane_straight_lines1.jpg "Straight line detection"
 
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/571/view) Points
@@ -92,33 +96,40 @@ Here is the result between warpped and
 #### 1. Provide an example of a distortion-corrected image.
 
 To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
-![alt text][image7]
+|  Original Images     |  Undistort result    |
+|----------------------|----------------------|
+|![alt text][image7]  |![alt text][image7]    |
 
 #### 2. Describe how (and identify where in your code) you used color transforms, gradients or other methods to create a thresholded binary image.  Provide an example of a binary image result.
 
 I used a combination of color and gradient thresholds to generate a binary image. First transform color space from RGB to HLS.  Apply gadient on L space and filter on S space, then combine together to get final pipeline.
 
-![alt text][image8]
+![alt text][image9]
 
 #### 3. Describe how (and identify where in your code) you performed a perspective transform and provide an example of a transformed image.
 
 I verified that my perspective transform was working as expected by drawing the `src` and `dst` points onto a test image and its warped counterpart to verify that the lines appear parallel in the warped image.
 
-![alt text][image9]
+|  Warped Images       |  Restored Warped     |
+|----------------------|----------------------|
+|![alt text][image9]  |![alt text][image10]   |
 
 #### 4. Describe how (and identify where in your code) you identified lane-line pixels and fit their positions with a polynomial?
 
 Then I did some other stuff and fit my lane lines with a 2nd order polynomial kinda like this:
+* use histogram to find starting point of left lane line and right lane line
+* Find the following points by scroll window up
+* For video, record all lane left fit and right fit, use np.mean to replace current left_fit and right_fit to avoid fluctuation 
+* If the curvature is less 1600, ignore the left_fit and right_fit data
 
-![alt text][image10]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
-I did this in lines # through # in my code in `my_other_file.py`
+I did this in this method calc_radius of file(P4_Solution-V2.ipynb).
+Assume that lane width is 3.7 and lane length is 9 meter. X and y scalar can be caculated through this caculation( ym_per_pix = 9/720  and  xm_per_pix = 3.7/980 ). The use radius of curvature formation to caculate the real curvature.
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
 
 ![alt text][image6]
 
