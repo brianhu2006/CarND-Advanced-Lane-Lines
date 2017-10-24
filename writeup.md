@@ -131,7 +131,7 @@ Assume that lane width is 3.7 and lane length is 9 meter. X and y scalar can be 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
 
-![alt text][image6]
+![alt text][image11]
 
 ---
 
