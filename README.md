@@ -4,15 +4,6 @@
 
 In this project, your goal is to write a software pipeline to identify the lane boundaries in a video, but the main output or product we want you to create is a detailed writeup of the project.  Check out the [writeup template](https://github.com/udacity/CarND-Advanced-Lane-Lines/blob/master/writeup_template.md) for this project and use it as a starting point for creating your own writeup.  
 
-Creating a great writeup:
----
-A great writeup should include the rubric points as well as your description of how you addressed each point.  You should include a detailed description of the code used in each step (with line-number references and code snippets where necessary), and links to other supporting documents or external references.  You should include images in your writeup to demonstrate how your code works with examples.  
-
-All that said, please be concise!  We're not looking for you to write a book here, just a brief description of how you passed each rubric point, and references to the relevant code :). 
-
-You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup.
-
-The Project
 ---
 
 The goals / steps of this project are the following:
@@ -26,7 +17,48 @@ The goals / steps of this project are the following:
 * Warp the detected lane boundaries back onto the original image.
 * Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
 
-The images for camera calibration are stored in the folder called `camera_cal`.  The images in `test_images` are for testing your pipeline on single frames.  If you want to extract more test images from the videos, you can simply use an image writing method like `cv2.imwrite()`, i.e., you can read the video in frame by frame as usual, and for frames you want to save for later you can write to an image file.  
+[//]: # (Image References)
+
+[image1]: ./test_images/calibration1.jpg "Original image"
+[image2]: ./output_images/calibration1.jpg "Undistorted image"
+[image3]: ./output_images/point_location.png "Source Point for perspetive transformation"
+
+[image4]: ./test_images/straight_lines1.jp "Original image"
+[image5]: ./output_images/pt_straight_lines1.jpg "Warped image"
+[image8]: ./output_images/pt_straight_lines1.jpg "Restore Image from Warped Images"
+
+
+##Camera Calibration
+Before starting the implementation of the lane detection pipeline, the first thing that should be done is camera calibration. That would help us:
+* calculate the calibration paramters from calibration images(`camera_cal/calibration*.jpg`)
+* Undistort images can improve the performance of measurement.
+
+The images in `test_images` are for testing your pipeline on single frames.  If you want to extract more test images from the videos, you can simply use an image writing method like `cv2.imwrite()`, i.e., you can read the video in frame by frame as usual, and for frames you want to save for later you can write to an image file.  
+
+
+| Original image      | Undistorted image  |
+|-------------------- |--------------------|
+|![alt text][image1]  |![alt text][image2] |
+
+##Finding projective transformation
+Next step is to find the projective transform so the original images can be warped so that it looks like the images are taken from directly above the road. To find perspective transformation matrix, src points and dst point should be picked up. The following src points((229,600),(1051,600),(1180,666),(100,666) ) are picked up and dst points ((0,648),(1280,648),(1280,720),(0,720)) are choosen. 
+Here is Source Points for perspective transformation.
+![alt text][image3] 
+Then using cv2.getPerspectiveTransform(src,dst) to cacluate the transformation matrix.
+The following operation will be done against warped image.
+
+Here is the result between warpped and 
+| Warped lines         |     Final result    |
+|----------------------|----------------------|
+|![alt text][image4]  |![alt text][image5]  |
+
+
+
+##Estimating pixel resolution
+Next important step is to estimate resolution in pixels per meter of the warped image. It also can be done by hand, but as previously we'll create a script that does that for us. In the course materials, it was stated that width of the lane is no less than 12 feet. In order to estimate the resolution in pixels per meter, the images with the straight lines will be used. They will be unwarped and the distance between the lines will be measured. The lower of two distances will be assumed to be 12 feet or 3.6576 meters. 
+
+
+
 
 To help the reviewer examine your work, please save examples of the output from each stage of your pipeline in the folder called `ouput_images`, and include a description in your writeup for the project of what each image shows.    The video called `project_video.mp4` is the video your pipeline should work well on.  
 
