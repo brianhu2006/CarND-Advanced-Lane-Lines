@@ -16,7 +16,7 @@ The goals / steps of this project are the following:
 [//]: # (Image References)
 
 [image1]: ./test_images/calibration1.jpg "Original image"
-[image2]: ./output_images/calibration1.jpg "Undistorted image"
+[image2]: ./output_images/undistort_calibration1.jpg "Undistorted image"
 [image3]: ./output_images/point_location.png "Source Point for perspetive transformation"
 
 [image4]: ./test_images/straight_lines1.jp "Original image"
@@ -85,7 +85,8 @@ Here is example code of
 Then using cv2.getPerspectiveTransform(src,dst) to cacluate the transformation matrix.
 The following operation will be done against warped image.
 
-Here is the result between warpped and 
+Here is the result between warpped 
+
 | Warped lines         |     Final result    |
 |----------------------|----------------------|
 |![alt text][image4]  |![alt text][image5]  |
@@ -96,6 +97,7 @@ Here is the result between warpped and
 #### 1. Provide an example of a distortion-corrected image.
 
 To demonstrate this step, I will describe how I apply the distortion correction to one of the test images like this one:
+
 |  Original Images     |  Undistort result    |
 |----------------------|----------------------|
 |![alt text][image7]  |![alt text][image7]    |
